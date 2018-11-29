@@ -1,6 +1,6 @@
 {
 	"name" : "syncgw/roundcube-select_for_sync",
-	"description" : "Adds the ability to select all adress books, calendars and task lists which should be included in synchronization with sync*gw for RoundCube.",
+	"description" : "Adds the ability to select all adress books, calendars and task lists in RoundCUbe which should be included in synchronization with sync*gw.",
 	"type" : "roundcube-plugin",
 	"license": "LGPL-3.0-or-later",
 	"authors" : [
