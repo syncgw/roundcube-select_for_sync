@@ -123,7 +123,6 @@ class roundcube_select_for_sync extends rcube_plugin {
             // tasklist.php:function load_driver() -- START
 
             $tsk = $this->rc->plugins->get_plugin('tasklist');
-            $n = 'database';
             $c = 'tasklist_' . $n . '_driver';
 
             require_once($tsk->home.'/drivers/tasklist_driver.php');

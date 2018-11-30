@@ -2,8 +2,9 @@
 	"name" : "syncgw/roundcube-select_for_sync",
 	"description" : "Adds the ability to select all adress books, calendars and task lists in RoundCube which should be included in synchronization with sync*gw.",
 	"type" : "roundcube-plugin",
-	"license": "LGPL-3.0-or-later",
-	"authors" : [
+    "license": "GPL-3.0+",
+  	"homepage": "https://github.com/syncgw/roundcube-select_for_sync",
+ 	"authors" : [
 		{
 			"name" : "Florian Daeumling",
 			"homepage" : "https://syncgw.com"
@@ -19,7 +20,10 @@
 		"caldav",
 		"carddav",
 		"syncml",
-		"synchronization"
+		"synchronization",
+		"smart phone",
+		"handy",
+		"cell phone"
 	],
 	"repositories" : [
 	{
