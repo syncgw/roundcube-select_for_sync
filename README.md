@@ -37,7 +37,7 @@ Um dieses Plugin nutzen zu können, benötigen Sie
   composer require kolab/tasklist
   ```
   
-  **Achtung:** Wenn Sie das Plugin verwenden und eine Fehlermeldung in ihrer RoundCube Log-Datei erhalten, dann überorüfen sie bitte die Datei `plugins/tasklist/config.inc.php`. Dort sollte `$config['tasklist_driver'] = 'database';` angegeben sein.
+  **Achtung:** Wenn Sie das Plugin verwenden und eine Fehlermeldung in ihrer RoundCube Log-Datei erhalten, dann überprüfen sie bitte die Datei `plugins/tasklist/config.inc.php`. Dort sollte `$config['tasklist_driver'] = 'database';` angegeben sein.
 
 * Aktivieren Sie unser Plugin indem Sie in der Datei `config/config.inc.php` das Plugin eintragen
 
@@ -89,7 +89,7 @@ To use this plugin, you need
   composer require kolab/tasklist
   ```
   
-  **Caution:** If you user the plugin and receive a RoundCube log file, then please check file `plugins/tasklist/config.inc.php`. There `$config['tasklist_driver'] = 'database';` should be specified.
+  **Caution:** If you use the plugin and receive a error message in RoundCube log file, then please check file `plugins/tasklist/config.inc.php`. There `$config['tasklist_driver'] = 'database';` should be specified.
 
 * Activate our plugin by adding plugin name in file `config/config.inc.php` das Plugin eintragen
 

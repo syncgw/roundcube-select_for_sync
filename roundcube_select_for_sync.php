@@ -3,16 +3,27 @@
 /*
  * sync*gw RoundCube Bundle
  *
- * @copyright  http://syncgw.com, 2017 - 2018
+ * @copyright  http://syncgw.com, 2017 - 2019
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 class roundcube_select_for_sync extends rcube_plugin {
 
-	public  $task = 'settings';
-	private $cal_db = null;
-	private $tsk_db = null;
+	// full address book
+	const ABOOK_FULL  = 'A';
+	// only contacts with tlephone number assigned
+	const ABOOK_SMALL = 'P';
+	// full calendar
+	const CAL_FULL    = 'C';
+	// full task list
+	const TASK_FULL   = 'T';
+    // max. number to check
+    const MAX         = 99;
+
+    public  $task     = 'settings';
+	private $cal_db   = null;
+	private $tsk_db   = null;
 	private $rc;
 
 	/**
@@ -22,9 +33,9 @@ class roundcube_select_for_sync extends rcube_plugin {
 	function init() {
         $this->add_texts('localization/', false);
 
-        $this->add_hook('preferences_sections_list',array($this, 'select_for_sync_section'));
-        $this->add_hook('preferences_list', array($this, 'select_for_sync_pref'));
-		$this->add_hook('preferences_save', array($this, 'select_for_sync_save_pref'));
+        $this->add_hook('preferences_sections_list', [ $this, 'select_for_sync_section' ]);
+        $this->add_hook('preferences_list',          [ $this, 'select_for_sync_pref' ]);
+		$this->add_hook('preferences_save',          [ $this, 'select_for_sync_save_pref' ]);
 
 		$this->rc = rcmail::get_instance();
  	}
@@ -39,12 +50,12 @@ class roundcube_select_for_sync extends rcube_plugin {
 
         $this->add_texts('localization/', false);
 
-        $args['list']['select_for_sync_pref'] = array (
-            'id'      => 'select_for_sync_pref',
-            'section' => rcube::Q($this->gettext('syncgw_p_title')),
-        );
+        $args['list']['select_for_sync_pref'] = [
+                        'id'      => 'select_for_sync_pref',
+                        'section' => rcube::Q($this->gettext('syncgw_p_title')),
+        ];
 
-        return($args);
+        return $args;
     }
 
 	/**
@@ -66,22 +77,22 @@ class roundcube_select_for_sync extends rcube_plugin {
 
         $n = 0;
     	foreach ($this->rc->get_address_sources() as $a) {
-            $c = new html_checkbox(array (
+            $c = new html_checkbox([
 			         'name'     => '_syncgw_a'.$n,
     				 'id' 	    => '_syncgw_a'.$n,
-	       			 'value'    => 'A'.$a['id'],
-			));
-            $p = new html_checkbox(array (
+	       			 'value'    => self::ABOOK_FULL.$a['id'],
+			]);
+            $p = new html_checkbox([
 			         'name'     => '_syncgw_p'.$n,
     				 'id' 	    => '_syncgw_p'.$n,
-	       			 'value'    => 'P'.$a['id'],
-			));
-            $args['blocks']['syncgw_a']['options']['syncgw'.$n++] = array (
+	       			 'value'    => self::ABOOK_SMALL.$a['id'],
+			]);
+            $args['blocks']['syncgw_a']['options']['syncgw'.$n++] = [
 	       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
-			     	'content' 	=> $c->show(strpos($prefs, 'A'.$a['id'].';') !== false ? 'A'.$a['id'] : null).' '.
+			     	'content' 	=> $c->show(strpos($prefs, self::ABOOK_FULL.$a['id'].';') !== false ? self::ABOOK_FULL.$a['id'] : null).' '.
                                    rcube::Q($this->gettext('syncgw_a_tonly')).' '.
-                                   $p->show(strpos($prefs, 'P'.$a['id'].';') !== false ? 'P'.$a['id'] : null),
-			);
+                                   $p->show(strpos($prefs, self::ABOOK_SMALL.$a['id'].';') !== false ? self::ABOOK_SMALL.$a['id'] : null),
+            ];
 		}
 
 		// calendars
@@ -104,15 +115,17 @@ class roundcube_select_for_sync extends rcube_plugin {
 
 		$n = 0;
         foreach ($this->cal_db->list_calendars(calendar_driver::FILTER_PERSONAL | calendar_driver::FILTER_WRITEABLE) as $a) {
-            $c = new html_checkbox(array (
+            if (!$a['active'])
+                continue;
+            $c = new html_checkbox([
     				'name' 	    => '_syncgw_c'.$n,
 	   			    'id' 	    => '_syncgw_c'.$n,
-				    'value'     => 'C'.$a['id'],
-            ));
-    	    $args['blocks']['syncgw_c']['options']['syncgw'.$n++] = array (
+				    'value'     => self::CAL_FULL.$a['id'],
+            ]);
+    	    $args['blocks']['syncgw_c']['options']['syncgw'.$n++] = [
 	       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
-			     	'content' 	=> $c->show(strpos($prefs, 'C'.$a['id'].';') !== false ? 'C'.$a['id'] : null),
-			);
+			     	'content' 	=> $c->show(strpos($prefs, self::CAL_FULL.$a['id'].';') !== false ? self::CAL_FULL.$a['id'] : null),
+			];
         }
 
 		// task lists
@@ -123,8 +136,8 @@ class roundcube_select_for_sync extends rcube_plugin {
             // tasklist.php:function load_driver() -- START
 
             $tsk = $this->rc->plugins->get_plugin('tasklist');
-            $n = $this->rc->config->get('tasklist_driver', 'database');
-            $c = 'tasklist_' . $n . '_driver';
+            $n   = $this->rc->config->get('tasklist_driver', 'database');
+            $c   = 'tasklist_' . $n . '_driver';
 
             require_once($tsk->home.'/drivers/tasklist_driver.php');
             require_once($tsk->home.'/drivers/'.$n.'/'.$c.'.php');
@@ -135,15 +148,18 @@ class roundcube_select_for_sync extends rcube_plugin {
 
  		$n = 0;
         foreach ($this->tsk_db->get_lists(tasklist_driver::FILTER_PERSONAL | tasklist_driver::FILTER_WRITEABLE) as $a) {
-            $c = new html_checkbox(array (
+            if (!$a['active'])
+                continue;
+            $c = new html_checkbox([
     				'name' 	    => '_syncgw_t'.$n,
 	   			    'id' 	    => '_syncgw_t'.$n,
-				    'value'     => 'T'.$a['id'],
-            ));
-    	    $args['blocks']['syncgw_t']['options']['syncgw'.$n++] = array (
+				    'value'     => self::TASK_FULL.$a['tasklist_id'],
+            ]);
+    	    $args['blocks']['syncgw_t']['options']['syncgw'.$n++] = [
 	       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
-			     	'content' 	=> $c->show(strpos($prefs, 'T'.$a['id'].';') !== false ? 'T'.$a['id'] : null),
-			);
+			     	'content' 	=> $c->show(strpos($prefs, self::TASK_FULL.$a['tasklist_id'].';') !== false ?
+			     	                        self::TASK_FULL.$a['tasklist_id'] : null),
+			];
         }
 
         return $args;
@@ -162,18 +178,21 @@ class roundcube_select_for_sync extends rcube_plugin {
 
         $this->rc->config->get('syncgw');
 
-        $prefs = ';';
+        $prefs = '';
 
-        for ($n=0; isset($_POST['_syncgw_a'.$n]); $n++)
-            $prefs .= $_POST['_syncgw_a'.$n].';'.$_POST['_syncgw_p'.$n].';';
+        for ($n=0; $n < self::MAX; $n++)
+            if (isset($_POST['_syncgw_a'.$n]))
+                $prefs .= $_POST['_syncgw_a'.$n].';'.$_POST['_syncgw_p'.$n].';';
 
-        for ($n=0; isset($_POST['_syncgw_c'.$n]); $n++)
-   		   $prefs .= $_POST['_syncgw_c'.$n].';';
+        for ($n=0; $n < self::MAX; $n++)
+            if (isset($_POST['_syncgw_c'.$n]))
+                $prefs .= $_POST['_syncgw_c'.$n].';';
 
-        for ($n=0; isset($_POST['_syncgw_t'.$n]); $n++)
-   		   $prefs .= $_POST['_syncgw_t'.$n].';';
+        for ($n=0; $n < self::MAX; $n++)
+            if (isset($_POST['_syncgw_t'.$n]))
+                $prefs .= $_POST['_syncgw_t'.$n].';';
 
-   		$this->rc->user->save_prefs(array('syncgw' => $prefs));
+   		$this->rc->user->save_prefs([ 'syncgw' => $prefs ]);
 
         return $args;
     }
