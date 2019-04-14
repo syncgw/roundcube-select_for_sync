@@ -30,6 +30,21 @@ Um dieses Plugin nutzen zu können, benötigen Sie
   ```
   composer require kolab/calendar
   ```
+  
+  **Achtung:** Wenn das Plugin verwenden wollen, um Geburtstagseinträge zu synchronisieren, dann müssen Sie einen Fehler im Plugin selbst beheben (der Fehler ist seit langer Zeit berichtet worden, aber leider bisher nicht in dre Version 3.3.3 behoben worden). Bitte öffnen Sie dazu die Datei `plugins/calendar/drivers/calendar_driver.php` und gehen zur Zeile `732` (das ist in der Funktion `get_birthday_event()`). 
+  
+  Bitte ändern Sie die PHP Anweisung von:
+  
+  ```
+  if ($source && $contact_id && ($abook = $rcmail->get_address_book($source))) {
+  ```
+
+  in
+  
+   ```
+  if ($contact_id && ($abook = $rcmail->get_address_book($source))) {
+  ```
+
 
 * Installieren Sie ggf. das [tasklist-Plugin](https://plugins.roundcube.net/packages/kolab/tasklist) mit der Anweisung
 
@@ -83,6 +98,20 @@ To use this plugin, you need
   composer require kolab/calendar
   ```
 
+  **Caution:** If you use the calendar plugin and you want to synchronize birthday events there is a known bug, which you need to fix yourself (bug is reported, but not fixed in versoin 3.3.3 of calendar plugin). Please open file `plugins/calendar/drivers/calendar_driver.php` and go to line `732` (that's inside function `get_birthday_event()`). 
+  
+  Please change the code from:
+  
+  ```
+  if ($source && $contact_id && ($abook = $rcmail->get_address_book($source))) {
+  ```
+
+  to
+  
+   ```
+  if ($contact_id && ($abook = $rcmail->get_address_book($source))) {
+  ```
+
 * Optionally install [tasklist plugin](https://plugins.roundcube.net/packages/kolab/tasklist)
 
   ```
@@ -90,8 +119,8 @@ To use this plugin, you need
   ```
   
   **Caution:** If you use the plugin and receive a error message in RoundCube log file, then please check file `plugins/tasklist/config.inc.php`. There `$config['tasklist_driver'] = 'database';` should be specified.
-
-* Activate our plugin by adding plugin name in file `config/config.inc.php` das Plugin eintragen
+  
+* Activate our plugin by adding plugin name in file `config/config.inc.php`
 
   ```
   $config['plugins'] = array(

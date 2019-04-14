@@ -102,31 +102,34 @@ class roundcube_select_for_sync extends rcube_plugin {
 
             // calendar.php:function load_driver() -- START
 
-            $cal = $this->rc->plugins->get_plugin('calendar');
-            $n = $this->rc->config->get('calendar_driver', 'database');
-            $c = $n.'_driver';
+        	if ($cal = $this->rc->plugins->get_plugin('calendar')) {
+	            $n = $this->rc->config->get('calendar_driver', 'database');
+    	        $c = $n.'_driver';
 
-            require_once($cal->home.'/drivers/calendar_driver.php');
-            require_once($cal->home.'/drivers/'.$n.'/'.$c.'.php');
+        	    require_once($cal->home.'/drivers/calendar_driver.php');
+            	require_once($cal->home.'/drivers/'.$n.'/'.$c.'.php');
 
-            $this->cal_db = new $c($cal);
-            // -- END
+	            $this->cal_db = new $c($cal);
+    	        // -- END
+        	}
         }
 
 		$n = 0;
-        foreach ($this->cal_db->list_calendars(calendar_driver::FILTER_PERSONAL | calendar_driver::FILTER_WRITEABLE) as $a) {
-            if (!$a['active'])
-                continue;
-            $c = new html_checkbox([
-    				'name' 	    => '_syncgw_c'.$n,
-	   			    'id' 	    => '_syncgw_c'.$n,
-				    'value'     => self::CAL_FULL.$a['id'],
-            ]);
-    	    $args['blocks']['syncgw_c']['options']['syncgw'.$n++] = [
-	       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
-			     	'content' 	=> $c->show(strpos($prefs, self::CAL_FULL.$a['id'].';') !== false ? self::CAL_FULL.$a['id'] : null),
-			];
-        }
+		if ($this->cal_db) {
+	        foreach ($this->cal_db->list_calendars(calendar_driver::FILTER_PERSONAL | calendar_driver::FILTER_WRITEABLE) as $a) {
+    	        if (!$a['active'])
+        	        continue;
+	            	$c = new html_checkbox([
+    					'name' 	    => '_syncgw_c'.$n,
+	   			    	'id' 	    => '_syncgw_c'.$n,
+					    'value'     => self::CAL_FULL.$a['id'],
+	            ]);
+	    	    $args['blocks']['syncgw_c']['options']['syncgw'.$n++] = [
+		       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
+				     	'content' 	=> $c->show(strpos($prefs, self::CAL_FULL.$a['id'].';') !== false ? self::CAL_FULL.$a['id'] : null),
+				];
+	        }
+		}
 
 		// task lists
         $args['blocks']['syncgw_t']['name'] = $this->gettext('syncgw_t_head');
@@ -135,32 +138,35 @@ class roundcube_select_for_sync extends rcube_plugin {
 
             // tasklist.php:function load_driver() -- START
 
-            $tsk = $this->rc->plugins->get_plugin('tasklist');
-            $n   = $this->rc->config->get('tasklist_driver', 'database');
-            $c   = 'tasklist_' . $n . '_driver';
+        	if ($tsk = $this->rc->plugins->get_plugin('tasklist')) {
+	            $n   = $this->rc->config->get('tasklist_driver', 'database');
+    	        $c   = 'tasklist_' . $n . '_driver';
 
-            require_once($tsk->home.'/drivers/tasklist_driver.php');
-            require_once($tsk->home.'/drivers/'.$n.'/'.$c.'.php');
+        	    require_once($tsk->home.'/drivers/tasklist_driver.php');
+            	require_once($tsk->home.'/drivers/'.$n.'/'.$c.'.php');
 
-            $this->tsk_db = new $c($tsk);
-            // -- END
+	            $this->tsk_db = new $c($tsk);
+    	        // -- END
+        	}
         }
 
  		$n = 0;
-        foreach ($this->tsk_db->get_lists(tasklist_driver::FILTER_PERSONAL | tasklist_driver::FILTER_WRITEABLE) as $a) {
-            if (!$a['active'])
-                continue;
-            $c = new html_checkbox([
-    				'name' 	    => '_syncgw_t'.$n,
-	   			    'id' 	    => '_syncgw_t'.$n,
-				    'value'     => self::TASK_FULL.$a['tasklist_id'],
-            ]);
-    	    $args['blocks']['syncgw_t']['options']['syncgw'.$n++] = [
-	       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
-			     	'content' 	=> $c->show(strpos($prefs, self::TASK_FULL.$a['tasklist_id'].';') !== false ?
-			     	                        self::TASK_FULL.$a['tasklist_id'] : null),
-			];
-        }
+ 		if ($this->tsk_db) {
+	        foreach ($this->tsk_db->get_lists(tasklist_driver::FILTER_PERSONAL | tasklist_driver::FILTER_WRITEABLE) as $a) {
+	            if (!$a['active'])
+	                continue;
+	            $c = new html_checkbox([
+	    				'name' 	    => '_syncgw_t'.$n,
+		   			    'id' 	    => '_syncgw_t'.$n,
+					    'value'     => self::TASK_FULL.$a['tasklist_id'],
+	            ]);
+	    	    $args['blocks']['syncgw_t']['options']['syncgw'.$n++] = [
+		       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
+				     	'content' 	=> $c->show(strpos($prefs, self::TASK_FULL.$a['tasklist_id'].';') !== false ?
+				     	                        self::TASK_FULL.$a['tasklist_id'] : null),
+				];
+	        }
+ 		}
 
         return $args;
     }
