@@ -22,7 +22,7 @@ Um dieses Plugin nutzen zu können, benötigen Sie
 * Bitte installieren das Plugin mit der Anweisung
 
   ```
-  composer require syncgw/roundcube-select_for-sync
+  composer require syncgw/roundcube-select_for_sync
   ```
 
 * Installieren sie optional das [calender-Plugin](https://plugins.roundcube.net/packages/kolab/calendar) mit der Anweisung
@@ -89,7 +89,7 @@ To use this plugin, you need
 * Please install plugin with the following command 
 
   ```
-  composer require syncgw/roundcube-select_for-sync
+  composer require syncgw/roundcube-select_for_sync
   ```
 
 * Optionally install [calender plugin](https://plugins.roundcube.net/packages/kolab/calendar) 
