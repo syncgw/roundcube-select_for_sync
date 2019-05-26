@@ -1,3 +1,8 @@
+---
+title: README
+date: 26.05.2019 19:28:38
+author: t1@wb28.de
+---
 # select_for_sync
 
 1. [Deutsch](#1)
@@ -5,7 +10,7 @@
 
 ## <a name="1"></a>1. Deutsch
 
-Mit diesem Plugin können Sie angeben, welche Adressbücher, Kalender und Aufgabenlisten ihrer [RoundCube](https://roundcube.net) Installation Sie mit Ihrem Handy / Smartphone synchonisieren möchten. Sie können dabei bei Ihren Addressbüchern auswählen, ob Sie alle Kontakte oder nur Kontakte mit Telefonnummern synchronisieren wollen.
+Mit diesem Plugin können Sie angeben, welche Adressbücher, Kalender, Aufgabenlisten und Notizen ihrer [RoundCube](https://roundcube.net) Installation Sie mit Ihrem Handy / Smartphone synchonisieren möchten. Sie können dabei bei Ihren Addressbüchern auswählen, ob Sie alle Kontakte oder nur Kontakte mit Telefonnummern synchronisieren wollen.
 
 **Voraussetzungen**
 
@@ -16,10 +21,11 @@ Um dieses Plugin nutzen zu können, benötigen Sie
 * Wenn Sie Adressbücher synchronisieren möchten, dann benötigen Sie kein weiteres RoundCube Plugin.
 * Wenn Sie Kalender synchronisieren möchten, dann installieren Sie bitte das [calender-Plugin](https://plugins.roundcube.net/packages/kolab/calendar).
 * Wenn Sie Aufgabenlisten synchrönisieren möchten, dann installieren Sie bitte das [tasklist-Plugin](https://plugins.roundcube.net/packages/kolab/tasklist).
+* Wenn Sie Notizen synchronisieren mochten, dann installieren Sie bitte das [primitivenotes-Plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes).
 
 **Installation**
 
-* Bitte installieren das Plugin mit der Anweisung
+* Bitte installieren das sync•gw-Plugin mit der Anweisung
 
   ```
   composer require syncgw/roundcube-select_for_sync
@@ -63,6 +69,15 @@ Um dieses Plugin nutzen zu können, benötigen Sie
 	...
   );
   ```
+
+* Installieren Sie ggf. das [primitivenotes-Plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes) mit der Anweisung
+
+  ```
+  composer require offerel/primitivenotes 
+  ```
+
+und erstellen Sie eine `config.inc.php` Datei gemäß den Installationsanweisungen zu dem Plugin.
+  
 **Benutzung**
 
 * Gehen Sie in das Menü `Einstellungen` und Konfigurieren Sie die Synchronisations-Einstellungen unter dem Menüpunkt `Synchronisationseinstellungen`.
@@ -72,7 +87,7 @@ Viel Spaß bei der Benutzung!
 
 ## <a name="2"></a>2. English
 
-With this Plugin you can specify in your [RoundCube](https://roundcube.net) installation which address books, calendars and task lists you want to synchronize with your cell phone / smart phone. For address boks you can specify whether you want to synchronize only contacts with a phone number specified or if you want to synchronize all contacts within this address book.
+With this Plugin you can specify in your [RoundCube](https://roundcube.net) installation which address books, calendars, task lists and notes you want to synchronize with your cell phone / smart phone. For address boks you can specify whether you want to synchronize only contacts with a phone number specified or if you want to synchronize all contacts within this address book.
 
 **Requirements**
 
@@ -83,6 +98,7 @@ To use this plugin, you need
 * If you want to synchronize address books, then you don't need any additional RoundCube plugin.
 * If you want to synchronize calendar, then you need to install [calender plugin](https://plugins.roundcube.net/packages/kolab/calendar).
 * If you want to synchronize tasklis, then you need to install [tasklist plugin](https://plugins.roundcube.net/packages/kolab/tasklist).
+* If you want to synchronize notes, then you need to install [primitivenotes plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes).
 
 **Installation**
 
@@ -129,6 +145,16 @@ To use this plugin, you need
 	...
   );
   ```
+	
+* Optionally install [primitivenotes plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes) 
+
+  ```
+  composer require offerel/primitivenotes 
+  ```
+
+and create a `config.inc.php` file according to the installation instructions of the Plugin.
+  
+
 **Usage**
 
 * Go to menu `Settings` and configure synchronization settings by selecting `Synchronization settings`.

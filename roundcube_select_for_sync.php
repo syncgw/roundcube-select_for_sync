@@ -18,12 +18,15 @@ class roundcube_select_for_sync extends rcube_plugin {
 	const CAL_FULL    = 'C';
 	// full task list
 	const TASK_FULL   = 'T';
-    // max. number to check
+	// full notes
+	const NOTES_FULL  = 'N';
+	// max. number to check
     const MAX         = 99;
 
     public  $task     = 'settings';
 	private $cal_db   = null;
 	private $tsk_db   = null;
+	private $note_dir = null;
 	private $rc;
 
 	/**
@@ -168,7 +171,33 @@ class roundcube_select_for_sync extends rcube_plugin {
 	        }
  		}
 
-        return $args;
+		// notes
+        $args['blocks']['syncgw_n']['name'] = $this->gettext('syncgw_n_head');
+
+        if (!is_string($this->note_dir)) {
+        	if ($this->rc->plugins->get_plugin('primitivenotes')) {
+		        $this->note_dir = 	$this->rc->config->get('notes_basepath', false).
+		        					$this->rc->user->get_username().
+	    	    					$this->rc->config->get('notes_folder', false);
+
+        	}
+        }
+
+ 		$n = 0;
+ 		if ($this->note_dir) {
+            $c = new html_checkbox([
+    				'name' 	    => '_syncgw_n'.$n,
+	   			    'id' 	    => '_syncgw_n'.$n,
+				    'value'     => self::NOTES_FULL.$n,
+            ]);
+    	    $args['blocks']['syncgw_n']['options']['syncgw'.$n++] = [
+	       			'title' 	=> '"'.$this->gettext('syncgw_n_text').'"',
+			     	'content' 	=> $c->show(strpos($prefs, self::NOTES_FULL.$n.';') !== false ?
+			     	                        self::NOTES_FULL.$n : null),
+			];
+ 		}
+
+ 		return $args;
     }
 
     /**
@@ -198,7 +227,11 @@ class roundcube_select_for_sync extends rcube_plugin {
             if (isset($_POST['_syncgw_t'.$n]))
                 $prefs .= $_POST['_syncgw_t'.$n].';';
 
-   		$this->rc->user->save_prefs([ 'syncgw' => $prefs ]);
+        for ($n=0; $n < self::MAX; $n++)
+            if (isset($_POST['_syncgw_n'.$n]))
+                $prefs .= $_POST['_syncgw_n'.$n].';';
+
+        $this->rc->user->save_prefs([ 'syncgw' => $prefs ]);
 
         return $args;
     }
