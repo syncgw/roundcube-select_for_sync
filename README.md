@@ -1,8 +1,3 @@
----
-title: README
-date: 26.05.2019 19:28:38
-author: t1@wb28.de
----
 # select_for_sync
 
 1. [Deutsch](#1)
