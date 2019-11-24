@@ -90,12 +90,13 @@ class roundcube_select_for_sync extends rcube_plugin {
     				 'id' 	    => '_syncgw_p'.$n,
 	       			 'value'    => self::ABOOK_SMALL.$a['id'],
 			]);
-            $args['blocks']['syncgw_a']['options']['syncgw'.$n++] = [
+            $args['blocks']['syncgw_a']['options']['syncgw'.$n] = [
 	       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
 			     	'content' 	=> $c->show(strpos($prefs, self::ABOOK_FULL.$a['id'].';') !== false ? self::ABOOK_FULL.$a['id'] : null).' '.
                                    rcube::Q($this->gettext('syncgw_a_tonly')).' '.
                                    $p->show(strpos($prefs, self::ABOOK_SMALL.$a['id'].';') !== false ? self::ABOOK_SMALL.$a['id'] : null),
             ];
+            $n++;
 		}
 
 		// calendars
@@ -127,10 +128,11 @@ class roundcube_select_for_sync extends rcube_plugin {
 	   			    	'id' 	    => '_syncgw_c'.$n,
 					    'value'     => self::CAL_FULL.$a['id'],
 	            ]);
-	    	    $args['blocks']['syncgw_c']['options']['syncgw'.$n++] = [
+	    	    $args['blocks']['syncgw_c']['options']['syncgw'.$n] = [
 		       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
 				     	'content' 	=> $c->show(strpos($prefs, self::CAL_FULL.$a['id'].';') !== false ? self::CAL_FULL.$a['id'] : null),
 				];
+	    	    $n++;
 	        }
 		}
 
@@ -163,11 +165,12 @@ class roundcube_select_for_sync extends rcube_plugin {
 		   			    'id' 	    => '_syncgw_t'.$n,
 					    'value'     => self::TASK_FULL.$a['tasklist_id'],
 	            ]);
-	    	    $args['blocks']['syncgw_t']['options']['syncgw'.$n++] = [
+	    	    $args['blocks']['syncgw_t']['options']['syncgw'.$n] = [
 		       			'title' 	=> rcube::Q('"'.$a['name'].'"'),
 				     	'content' 	=> $c->show(strpos($prefs, self::TASK_FULL.$a['tasklist_id'].';') !== false ?
 				     	                        self::TASK_FULL.$a['tasklist_id'] : null),
 				];
+	    	    $n++;
 	        }
  		}
 
@@ -190,11 +193,12 @@ class roundcube_select_for_sync extends rcube_plugin {
 	   			    'id' 	    => '_syncgw_n'.$n,
 				    'value'     => self::NOTES_FULL.$n,
             ]);
-    	    $args['blocks']['syncgw_n']['options']['syncgw'.$n++] = [
+    	    $args['blocks']['syncgw_n']['options']['syncgw'.$n] = [
 	       			'title' 	=> '"'.$this->gettext('syncgw_n_text').'"',
 			     	'content' 	=> $c->show(strpos($prefs, self::NOTES_FULL.$n.';') !== false ?
 			     	                        self::NOTES_FULL.$n : null),
 			];
+    	    $n++;
  		}
 
  		return $args;
