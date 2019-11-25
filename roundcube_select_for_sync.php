@@ -174,7 +174,7 @@ class roundcube_select_for_sync extends rcube_plugin {
 	        }
  		}
 
-		// notes
+		// note s
         $args['blocks']['syncgw_n']['name'] = $this->gettext('syncgw_n_head');
 
         if (!is_string($this->note_dir)) {
