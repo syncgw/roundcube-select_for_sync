@@ -121,9 +121,9 @@ class roundcube_select_for_sync extends rcube_plugin {
 		$n = 0;
 		if ($this->cal_db) {
 	        foreach ($this->cal_db->list_calendars(calendar_driver::FILTER_PERSONAL | calendar_driver::FILTER_WRITEABLE) as $a) {
-    	        if (!$a['active'])
+    	        if (!$a['active'] || $a['id'] == calendar_driver::BIRTHDAY_CALENDAR_ID)
         	        continue;
-	            	$c = new html_checkbox([
+	            $c = new html_checkbox([
     					'name' 	    => '_syncgw_c'.$n,
 	   			    	'id' 	    => '_syncgw_c'.$n,
 					    'value'     => self::CAL_FULL.$a['id'],
