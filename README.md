@@ -80,6 +80,10 @@ und erstellen Sie eine `config.inc.php` Datei gemäß den Installationsanweisung
 
 Viel Spaß bei der Benutzung!
 
+<a href="https://www.paypal.com/donate?hosted_button_id=RQMP8CWD2Y2XC" target="_blank">
+  <img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" alt="Spenden mit PayPal"/>
+</a>
+
 ## <a name="2"></a>2. English
 
 With this Plugin you can specify in your [RoundCube](https://roundcube.net) installation which address books, calendars, task lists and notes you want to synchronize with your cell phone / smart phone. For address boks you can specify whether you want to synchronize only contacts with a phone number specified or if you want to synchronize all contacts within this address book.
@@ -156,4 +160,8 @@ and create a `config.inc.php` file according to the installation instructions of
 * Now you're ready to synchronize your selected data with your cell phone / smart phone.
 
 Please enjoy!
+
+<a href="https://www.paypal.com/donate?hosted_button_id=RQMP8CWD2Y2XC" target="_blank">
+  <img src="https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif" alt="Donate with PayPal"/>
+</a>
 

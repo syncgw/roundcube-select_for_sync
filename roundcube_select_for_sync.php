@@ -3,13 +3,15 @@
 /*
  * sync*gw RoundCube Bundle
  *
- * @copyright  http://syncgw.com, 2017 - 2019
+ * @copyright  http://syncgw.com, 2017 - 2020
  * @author     Florian Daeumling, http://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 class roundcube_select_for_sync extends rcube_plugin {
 
+	// full e-mail
+	const MAIL_FULL   = 'M';
 	// full address book
 	const ABOOK_FULL  = 'A';
 	// only contacts with tlephone number assigned
@@ -75,7 +77,20 @@ class roundcube_select_for_sync extends rcube_plugin {
         $prefs = $this->rc->user->get_prefs();
         $prefs = $prefs['syncgw'];
 
-	    // address books
+	    // mail
+        $args['blocks']['syncgw_m']['name'] = $this->gettext('syncgw_m_head');
+        $n = 0;
+        $c = new html_checkbox([
+    			'name' 	    => '_syncgw_m'.$n,
+	   			'id' 	    => '_syncgw_m'.$n,
+				'value'     => self::MAIL_FULL.$n,
+        ]);
+    	$args['blocks']['syncgw_m']['options']['syncgw'.$n] = [
+	       		'title' 	=> '"'.$this->gettext('syncgw_m_text').'"',
+			    'content' 	=> $c->show(strpos($prefs, self::MAIL_FULL.$n.';') !== false ? self::MAIL_FULL.$n : null),
+		];
+
+        // address books
         $args['blocks']['syncgw_a']['name'] = $this->gettext('syncgw_a_head');
 
         $n = 0;
@@ -218,6 +233,10 @@ class roundcube_select_for_sync extends rcube_plugin {
         $this->rc->config->get('syncgw');
 
         $prefs = '';
+
+        for ($n=0; $n < self::MAX; $n++)
+            if (isset($_POST['_syncgw_m'.$n]))
+                $prefs .= $_POST['_syncgw_m'.$n].';';
 
         for ($n=0; $n < self::MAX; $n++)
             if (isset($_POST['_syncgw_a'.$n]))
