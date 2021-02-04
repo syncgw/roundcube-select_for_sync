@@ -3,8 +3,8 @@
 /*
  * sync*gw RoundCube Bundle
  *
- * @copyright  http://syncgw.com, 2017 - 2020
- * @author     Florian Daeumling, http://syncgw.com
+ * @copyright  https://syncgw.com, 2017 - 2021
+ * @author     Florian Daeumling, https://syncgw.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
