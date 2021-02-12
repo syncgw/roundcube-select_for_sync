@@ -12,67 +12,50 @@ Mit diesem Plugin können Sie angeben, welche Adressbücher, Kalender, Aufgabenl
 Um dieses Plugin nutzen zu können, benötigen Sie
 
 * Eine funktionierende [RoundCube](https://roundcube.net) Installation.
-* Unser Produkt [sync*gw](https://www.syncgw.com) installiert und konfiguriert.
+* Unser Produkt [sync*gw](https://syncgw.com) installiert und konfiguriert.
 * Wenn Sie Adressbücher synchronisieren möchten, dann benötigen Sie kein weiteres RoundCube Plugin.
-* Wenn Sie Kalender synchronisieren möchten, dann installieren Sie bitte das [calender-Plugin](https://plugins.roundcube.net/packages/kolab/calendar).
+* Wenn Sie Kalender synchronisieren möchten, dann installieren Sie bitte das [calender-Plugin](https://packagist.org/packages/kolab/calendar).
 * Wenn Sie Aufgabenlisten synchrönisieren möchten, dann installieren Sie bitte das [tasklist-Plugin](https://plugins.roundcube.net/packages/kolab/tasklist).
-* Wenn Sie Notizen synchronisieren mochten, dann installieren Sie bitte das [primitivenotes-Plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes).
+* Wenn Sie Notizen synchronisieren mochten, dann installieren Sie bitte das [primitivenotes-Plugin](https://packagist.org/packages/offerel/primitivenotes).
 
 **Installation**
 
-* Bitte installieren das sync•gw-Plugin mit der Anweisung
+* Bitte installieren das **sync•gw-Plugin** mit der Anweisung
 
-  ```
-  composer require syncgw/roundcube-select_for_sync
-  ```
-
-* Installieren sie optional das [calender-Plugin](https://plugins.roundcube.net/packages/kolab/calendar) mit der Anweisung
-
-  ```
-  composer require kolab/calendar
-  ```
-  
-  **Achtung:** Wenn das Plugin verwenden wollen, um Geburtstagseinträge zu synchronisieren, dann müssen Sie einen Fehler im Plugin selbst beheben (der Fehler ist seit langer Zeit berichtet worden, aber leider bisher nicht in dre Version 3.3.3 behoben worden). Bitte öffnen Sie dazu die Datei `plugins/calendar/drivers/calendar_driver.php` und gehen zur Zeile `732` (das ist in der Funktion `get_birthday_event()`). 
-  
-  Bitte ändern Sie die PHP Anweisung von:
-  
-  ```
-  if ($source && $contact_id && ($abook = $rcmail->get_address_book($source))) {
-  ```
-
-  in
-  
    ```
-  if ($contact_id && ($abook = $rcmail->get_address_book($source))) {
-  ```
+   composer require syncgw/roundcube-select_for_sync
+   ```
 
+* Installieren sie optional das **calender-Plugin** mit der Anweisung
 
-* Installieren Sie ggf. das [tasklist-Plugin](https://plugins.roundcube.net/packages/kolab/tasklist) mit der Anweisung
+   ```
+   composer require kolab/calendar
+   ```
+  
+ * Installieren Sie ggf. das **tasklist-Plugin** mit der Anweisung
 
   ```
   composer require kolab/tasklist
   ```
   
-  **Achtung:** Wenn Sie das Plugin verwenden und eine Fehlermeldung in ihrer RoundCube Log-Datei erhalten, dann überprüfen sie bitte die Datei `plugins/tasklist/config.inc.php`. Dort sollte `$config['tasklist_driver'] = 'database';` angegeben sein.
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Achtung:** Wenn Sie das Plugin verwenden und eine Fehlermeldung in ihrer RoundCube Log-Datei erhalten, dann überprüfen sie bitte die Datei `plugins/tasklist/config.inc.php`. Dort sollte `$config['tasklist_driver'] = 'database';` angegeben sein.
+
+* Installieren Sie ggf. das **primitivenotes-Plugin** mit der Anweisung
+
+   ```
+  composer require offerel/primitivenotes 
+   ```
 
 * Aktivieren Sie unser Plugin indem Sie in der Datei `config/config.inc.php` das Plugin eintragen
 
-  ```
+   ```
   $config['plugins'] = array(
 	...
 	'roundcube_select_for_sync',
 	...
   );
-  ```
-
-* Installieren Sie ggf. das [primitivenotes-Plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes) mit der Anweisung
-
-  ```
-  composer require offerel/primitivenotes 
-  ```
-
-und erstellen Sie eine `config.inc.php` Datei gemäß den Installationsanweisungen zu dem Plugin.
-  
+   ```
+ 
 **Benutzung**
 
 * Gehen Sie in das Menü `Einstellungen` und Konfigurieren Sie die Synchronisations-Einstellungen unter dem Menüpunkt `Synchronisationseinstellungen`.
@@ -95,65 +78,48 @@ To use this plugin, you need
 * A functional [RoundCube](https://roundcube.net) installation.
 * Our product [sync*gw](https://www.syncgw.com) installed and configured.
 * If you want to synchronize address books, then you don't need any additional RoundCube plugin.
-* If you want to synchronize calendar, then you need to install [calender plugin](https://plugins.roundcube.net/packages/kolab/calendar).
+* If you want to synchronize calendar, then you need to install [calender plugin](https://packagist.org/packages/kolab/calendar).
 * If you want to synchronize tasklis, then you need to install [tasklist plugin](https://plugins.roundcube.net/packages/kolab/tasklist).
-* If you want to synchronize notes, then you need to install [primitivenotes plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes).
+* If you want to synchronize notes, then you need to install [primitivenotes plugin](https://packagist.org/packages/offerel/primitivenotes).
 
 **Installation**
 
-* Please install plugin with the following command 
+* Please install **sync•gw plugin** plugin with the following command 
 
-  ```
-  composer require syncgw/roundcube-select_for_sync
-  ```
-
-* Optionally install [calender plugin](https://plugins.roundcube.net/packages/kolab/calendar) 
-
-  ```
-  composer require kolab/calendar
-  ```
-
-  **Caution:** If you use the calendar plugin and you want to synchronize birthday events there is a known bug, which you need to fix yourself (bug is reported, but not fixed in versoin 3.3.3 of calendar plugin). Please open file `plugins/calendar/drivers/calendar_driver.php` and go to line `732` (that's inside function `get_birthday_event()`). 
-  
-  Please change the code from:
-  
-  ```
-  if ($source && $contact_id && ($abook = $rcmail->get_address_book($source))) {
-  ```
-
-  to
-  
    ```
-  if ($contact_id && ($abook = $rcmail->get_address_book($source))) {
-  ```
+  composer require syncgw/roundcube-select_for_sync
+   ```
 
-* Optionally install [tasklist plugin](https://plugins.roundcube.net/packages/kolab/tasklist)
+* Optionally install **calender plugin**
 
-  ```
+   ```
+  composer require kolab/calendar
+   ```
+
+* Optionally install **tasklist plugin**
+
+   ```
   composer require kolab/tasklist
-  ```
+   ```
   
-  **Caution:** If you use the plugin and receive a error message in RoundCube log file, then please check file `plugins/tasklist/config.inc.php`. There `$config['tasklist_driver'] = 'database';` should be specified.
+  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; **Caution:** If you use the plugin and receive a error message in RoundCube log file, then please check file `plugins/tasklist/config.inc.php`. There `$config['tasklist_driver'] = 'database';` should be specified.
   
+* Optionally install [primitivenotes plugin](https://packagist.org/packages/offerel/primitivenotes) 
+
+   ```
+  composer require offerel/primitivenotes 
+   ```
+
 * Activate our plugin by adding plugin name in file `config/config.inc.php`
 
-  ```
+   ```
   $config['plugins'] = array(
 	...
 	'roundcube_select_for_sync',
 	...
   );
-  ```
+   ```
 	
-* Optionally install [primitivenotes plugin](https://plugins.roundcube.net/packages/offerel/primitivenotes) 
-
-  ```
-  composer require offerel/primitivenotes 
-  ```
-
-and create a `config.inc.php` file according to the installation instructions of the Plugin.
-  
-
 **Usage**
 
 * Go to menu `Settings` and configure synchronization settings by selecting `Synchronization settings`.
